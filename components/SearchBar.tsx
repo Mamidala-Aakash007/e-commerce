@@ -1,0 +1,12 @@
+import { Search } from 'lucide-react'
+import React from 'react'
+
+const SearchBar = () => {
+  return (
+    <div>
+        <Search className='w-5 h-5 text-gray-600 hover:text-shop_light_green hoverEffect cursor-pointer'/>
+    </div>
+  )
+}
+
+export default SearchBar
