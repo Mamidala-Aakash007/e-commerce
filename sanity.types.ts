@@ -291,6 +291,7 @@ export type Brand = {
 };
 
 export type Category = {
+  productCount?: number;
   _id: string;
   _type: "category";
   _createdAt: string;
