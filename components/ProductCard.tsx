@@ -6,6 +6,8 @@ import Link from "next/link";
 import AddToWishlistButton from "./AddToWishlistButton";
 import { Title } from "./text";
 import PriceView from "./PriceView";
+import AddToCartButton from "./AddToCartButton";
+
 const ProductCard = ({ product }: { product: Product }) => {
   return (
     <div className="text-sm border border-dark_blue/20 rounded-md bg-white group">
@@ -72,13 +74,18 @@ const ProductCard = ({ product }: { product: Product }) => {
         </div>
         <div className="flex items-center gap-2.5">
           <p className="font-medium">In Stock</p>
-          <p className={` ${product?.stock ===0 ? "text-red-600" : "text-shop_light_green font-semibold"}`}>
+          <p
+            className={` ${product?.stock === 0 ? "text-red-600" : "text-shop_light_green font-semibold"}`}
+          >
             {(product?.stock as number) > 0 ? product?.stock : "inavailable"}
           </p>
         </div>
-        <PriceView price={product?.price}
-        discount={product?.discount}
-        className="text-sm" />
+        <PriceView
+          price={product?.price}
+          discount={product?.discount}
+          className="text-sm"
+        />
+        <AddToCartButton product={product} className="w-36 rounded-full" />
       </div>
     </div>
   );
