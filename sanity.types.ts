@@ -291,7 +291,6 @@ export type Brand = {
 };
 
 export type Category = {
-  productCount?: number;
   _id: string;
   _type: "category";
   _createdAt: string;
@@ -462,10 +461,54 @@ export type BRANDS_QUERY_RESULT = Array<{
   };
 }>;
 
+// Source: sanity/queries/query.ts
+// Variable: LATEST_BLOG_QUERY
+// Query: *[_type == 'blog' && isLatest == true]| order(name asc){    ...,    blogcategories[]->{    title}}
+export type LATEST_BLOG_QUERY_RESULT = Array<{
+  _id: string;
+  _type: "blog";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  author?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "author";
+  };
+  mainImage?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  blogcategories: Array<{
+    title: string | null;
+  }> | null;
+  publishedAt?: string;
+  isLatest: true;
+  body?: BlockContent;
+}>;
+
+// Source: sanity/queries/query.ts
+// Variable: DEAL_PRODUCTS
+// Query: *[type == 'product' && status == 'hot'] | order(name asc){    ...,"categories": categories[]->title    }
+export type DEAL_PRODUCTS_RESULT = Array<never>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == 'brand']| order(title asc)": BRANDS_QUERY_RESULT;
+    "*[_type == 'blog' && isLatest == true]| order(name asc){\n    ...,\n    blogcategories[]->{\n    title}}": LATEST_BLOG_QUERY_RESULT;
+    "*[type == 'product' && status == 'hot'] | order(name asc){\n    ...,\"categories\": categories[]->title\n    }": DEAL_PRODUCTS_RESULT;
   }
 }
