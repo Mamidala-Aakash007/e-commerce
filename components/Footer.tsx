@@ -56,7 +56,7 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-4">         
             <SubTitle>Newsletter</SubTitle>
             <SubText>
               Subscribe to our newsletter to receive updates and exclusive
