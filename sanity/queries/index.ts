@@ -1,7 +1,10 @@
-import { Brand, Product } from "@/sanity.types";
+import { Brand, Category, Product } from "@/sanity.types";
 import { sanityFetch } from "../lib/live";
-import { BRANDS_QUERY, DEAL_PRODUCTS, LATEST_BLOG_QUERY } from "./query";
+import { BRAND_QUERY, BRANDS_QUERY, DEAL_PRODUCTS, LATEST_BLOG_QUERY, PRODUCT_BY_QUERY } from "./query";
 
+export type CategoryWithProductCount = Category & {
+  productCount: number;
+};
 const getCategories = async (quantity?: number) => {
   try {
     const query = quantity
@@ -44,7 +47,7 @@ const getLatestBlogs = async () => {
   }
 };
 
-const getDealProducts = async(): Promise<Product[]> => {
+const getDealProducts = async (): Promise<Product[]> => {
   try {
     const { data } = await sanityFetch({ query: DEAL_PRODUCTS });
     return data ?? [];
@@ -54,4 +57,36 @@ const getDealProducts = async(): Promise<Product[]> => {
   }
 };
 
-export { getCategories, getAllBrands, getLatestBlogs, getDealProducts };
+const getProductBySlug = async(slug: string) => {
+  try {
+    const product = await sanityFetch({
+      query: PRODUCT_BY_QUERY,
+      params: {
+        slug,
+      },
+    });
+    return product?.data || null;
+  }
+  catch (error){
+    console.error("Error fetching product by ID:", error);
+    return null;
+  }
+}
+
+const getBrand = async (slug: string) => {
+  try{
+    const product = await sanityFetch({
+      query: BRAND_QUERY,
+      params: {
+        slug,
+      }
+    });
+    return product?.data || null;
+  }
+  catch (error){
+    console.error("Error fetching product by ID:", error);
+    return null;
+  }
+}
+
+export { getCategories, getAllBrands, getLatestBlogs, getDealProducts, getProductBySlug, getBrand };
